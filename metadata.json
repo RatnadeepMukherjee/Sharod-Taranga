@@ -1,0 +1,6 @@
+{
+  "name": "Sharod Taranga: 1970s Durga Puja Vintage Radio",
+  "description": "An interactive vintage 1970s Bengali Durga Puja radio with antique brass panels, sindoor-red enamel, cane speaker grille, Puja day tuning dial, and authentic acoustic soundscapes.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

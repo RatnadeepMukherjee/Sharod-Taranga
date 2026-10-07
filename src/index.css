@@ -1,0 +1,95 @@
+@import "tailwindcss";
+
+@layer base {
+  html, body, #root {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    height: 100dvh;
+    overflow: hidden;
+    background-color: #0d0806;
+    color: #fef3c7;
+    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+}
+
+.font-cinzel {
+  font-family: 'Cinzel', serif;
+}
+
+.font-tiro {
+  font-family: 'Tiro Bangla', serif, 'Hind Siliguri';
+}
+
+.font-serif-vintage {
+  font-family: 'Playfair Display', serif;
+}
+
+.font-mono-dial {
+  font-family: 'Space Mono', monospace;
+}
+
+/* Apple Liquid Glass 4-Layer Corner Refraction Stack */
+.liquid-glass-corner-frame {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(245, 158, 11, 0.28);
+}
+
+@supports (backdrop-filter: url(#liquid-glass-filter)) {
+  .liquid-glass-corner-frame {
+    backdrop-filter: url(#liquid-glass-filter) blur(12px);
+    -webkit-backdrop-filter: url(#liquid-glass-filter) blur(12px);
+  }
+}
+
+/* Custom Modal Scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 5px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(20, 10, 8, 0.6);
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(180, 83, 9, 0.5);
+  border-radius: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(217, 119, 6, 0.8);
+}
+
+/* Thin vintage amber scrollbar for mobile radio dial */
+.custom-scrollbar-thin::-webkit-scrollbar {
+  height: 3px;
+}
+.custom-scrollbar-thin::-webkit-scrollbar-track {
+  background: rgba(18, 10, 6, 0.7);
+  border-radius: 2px;
+}
+.custom-scrollbar-thin::-webkit-scrollbar-thumb {
+  background: rgba(245, 158, 11, 0.45);
+  border-radius: 2px;
+}
+.custom-scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background: rgba(245, 158, 11, 0.8);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}

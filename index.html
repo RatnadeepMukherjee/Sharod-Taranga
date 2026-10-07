@@ -1,0 +1,398 @@
+<!doctype html>
+<html lang="bn">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sharod Taranga: 1970s Durga Puja Vintage Radio</title>
+    <meta name="description" content="An interactive vintage 1970s Bengali Durga Puja radio with antique brass panels, sindoor-red enamel, cane speaker grille, Puja day tuning dial, and authentic acoustic soundscapes." />
+    <meta property="og:title" content="Sharod Taranga: 1970s Durga Puja Vintage Radio" />
+    <meta property="og:description" content="An interactive vintage 1970s Bengali Durga Puja radio with antique brass panels, sindoor-red enamel, cane speaker grille, Puja day tuning dial, and authentic acoustic soundscapes." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Google Fonts: Baloo Da 2, Playfair Display, Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+Da+2:wght@500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+    <!-- YouTube IFrame Player API -->
+    <script src="https://www.youtube.com/iframe_api"></script>
+
+    <!-- Pure External CSS -->
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body class="is-landing-active">
+    <!-- Full-Viewport Painterly Illustrated Background with 800ms Cross-Fade Layers -->
+    <div class="viewport-background" aria-hidden="true">
+      <div id="bg-layer-1" class="bg-layer active"></div>
+      <div id="bg-layer-2" class="bg-layer prev"></div>
+      <div class="vignette-overlay"></div>
+      <canvas id="embers-canvas"></canvas>
+    </div>
+ <div id="intro" class="intro" role="dialog" aria-label="Intro video">
+  <video id="intro-video-bg" class="intro-video-bg" muted playsinline preload="auto" aria-hidden="true"></video>
+  <video id="intro-video" class="intro-video" playsinline preload="auto"></video>
+
+  <button id="intro-start" class="intro-start intro-loader is-loading" type="button" disabled aria-live="polite">
+  <span class="ld-wrap">
+    <svg class="ld-svg" viewBox="0 0 200 200" aria-hidden="true">
+      <defs>
+        <radialGradient id="ldF" cx="50%" cy="70%" r="65%">
+          <stop offset="0" stop-color="#fff6c8"/><stop offset=".5" stop-color="#ffc545"/><stop offset="1" stop-color="#f5761a"/>
+        </radialGradient>
+        <linearGradient id="ldG" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#ffe9a8"/><stop offset="1" stop-color="#f5a623"/>
+        </linearGradient>
+      </defs>
+      <circle class="ld-wave w1" cx="100" cy="100" r="64"/>
+      <circle class="ld-wave w2" cx="100" cy="100" r="64"/>
+      <circle class="ld-wave w3" cx="100" cy="100" r="64"/>
+      <g class="ld-petals">
+        <ellipse cx="100" cy="70" rx="6" ry="20" transform="rotate(0 100 100)"/>
+        <ellipse cx="100" cy="70" rx="6" ry="20" transform="rotate(30 100 100)"/>
+        <ellipse cx="100" cy="70" rx="6" ry="20" transform="rotate(60 100 100)"/>
+        <ellipse cx="100" cy="70" rx="6" ry="20" transform="rotate(90 100 100)"/>
+        <ellipse cx="100" cy="70" rx="6" ry="20" transform="rotate(120 100 100)"/>
+        <ellipse cx="100" cy="70" rx="6" ry="20" transform="rotate(150 100 100)"/>
+        <ellipse cx="100" cy="70" rx="6" ry="20" transform="rotate(180 100 100)"/>
+        <ellipse cx="100" cy="70" rx="6" ry="20" transform="rotate(210 100 100)"/>
+        <ellipse cx="100" cy="70" rx="6" ry="20" transform="rotate(240 100 100)"/>
+        <ellipse cx="100" cy="70" rx="6" ry="20" transform="rotate(270 100 100)"/>
+        <ellipse cx="100" cy="70" rx="6" ry="20" transform="rotate(300 100 100)"/>
+        <ellipse cx="100" cy="70" rx="6" ry="20" transform="rotate(330 100 100)"/>
+      </g>
+      <circle class="ld-track" cx="100" cy="100" r="64"/>
+      <circle id="ld-progress" cx="100" cy="100" r="64"/>
+      <circle class="ld-glow" cx="100" cy="104" r="26"/>
+      <path class="ld-flame" d="M100 80 C90 95 91 106 100 113 C109 106 110 95 100 80Z" fill="url(#ldF)"/>
+      <path class="ld-bowl" d="M82 114 Q100 134 118 114 Z"/>
+    </svg>
+  </span>
+  <span class="ld-bn" id="ld-bn">আগমনী সুর লোড হচ্ছে…</span>
+  <span class="ld-en" id="ld-en">Tuning the valves</span>
+  <span class="ld-core"><b id="ld-pct">0</b><i>%</i></span>
+</button>
+</button>
+  <button id="intro-sound" class="intro-sound" type="button" hidden>🔊 শব্দের জন্য ট্যাপ করুন • Tap for sound</button>
+  <button id="intro-skip" class="intro-skip" type="button" hidden>এড়িয়ে যান • Skip ›</button>
+</div>
+</div>
+
+    <!-- Falling Shiuli Flowers Canvas (শরতের শিউলি ঝরা - Drops gently from the top) -->
+    <canvas id="shiuli-canvas" class="shiuli-canvas" aria-hidden="true"></canvas>
+
+    <!-- Top Bar: Thin, Unobtrusive Translucent Glassmorphic Clusters -->
+    <header class="top-bar">
+      <!-- Left: Home Button & Live Clock (12-Hour format with IST, without seconds) -->
+      <div class="top-cluster clock-cluster">
+        <button id="btn-home" class="action-btn home-btn" type="button" aria-label="Go to Sharod Taranga Home" title="শারদ তরঙ্গ হোম • Sharod Taranga Home">
+          <span class="home-icon" aria-hidden="true">🏠</span>
+          <span id="home-btn-label">হোম</span>
+        </button>
+        <div class="glass-pill clock-pill" title="Indian Standard Time (IST)">
+          <span id="clock-time" class="clock-label">--:-- --</span>
+          <span class="clock-ist">IST</span>
+        </div>
+        <button id="btn-remind" class="action-btn" type="button"
+        aria-label="Remind me about Mahalaya" title="মহালয়া রিমাইন্ডার • Remind me">🔔</button> 
+        <div id="remind-toast" class="remind-toast" hidden></div>
+      </div>
+
+      <!-- Center: Clean Durga Pujo Festival Countdown -->
+      <div class="top-cluster countdown-cluster">
+        <div class="glass-pill countdown-pill" title="Durga Pujo Festival Countdown">
+          <span class="countdown-icon" aria-hidden="true">🪷</span>
+          <span id="countdown-text" class="countdown-span">পুজোর আর ২০ দিন বাকি</span>
+        </div>
+      </div>
+
+      <!-- Right: Instructions & Language Toggle -->
+      <div class="top-cluster lang-cluster">
+        <button id="btn-instructions" class="action-btn instruction-btn" type="button" aria-label="Open Website Instructions" title="ওয়েবসাইটের নির্দেশিকা • Website Instructions">
+          <span class="info-icon" aria-hidden="true">📜</span>
+          <span id="instruction-btn-label">নির্দেশিকা</span>
+        </button>
+        <!-- Language Toggle -->
+        <button id="lang-toggle" class="action-btn" type="button" aria-label="Toggle language between Bengali and English">
+          বাংলা
+        </button>
+      </div>
+    </header>
+
+    <!-- Hero Text & Landing Title Writeup -->
+    <main class="hero-container">
+      <h1 id="hero-day-name" class="hero-day-name hidden"></h1>
+      <div id="landing-title-block" class="landing-title-block">
+      </div>
+    </main>
+
+    <!-- Bottom: Aesthetic Vintage Radio Console with Top Equalizer & Dual Large Rotary Tuners -->
+    <footer class="radio-dock">
+      <div class="vintage-radio-motif" role="region" aria-label="Agomoni Betar Vintage Radio">
+        <!-- Vintage Brass Corner Screws/Rivets -->
+        <span class="radio-rivet rivet-tl" aria-hidden="true"></span>
+        <span class="radio-rivet rivet-tr" aria-hidden="true"></span>
+        <span class="radio-rivet rivet-bl" aria-hidden="true"></span>
+        <span class="radio-rivet rivet-br" aria-hidden="true"></span>
+
+        <!-- Top Deck: Acoustic Grille Slits, Vintage Badge & Audio Equalizer Display -->
+        <div class="radio-equalizer-header" title="Vintage Audio Equalizer & Radio Receiver">
+          <div class="speaker-grille-vents" aria-hidden="true">
+            <span class="vent-bar"></span>
+            <span class="vent-bar"></span>
+            <span class="vent-bar"></span>
+          </div>
+
+          <div class="vintage-radio-brand">
+            <span class="brand-crest">✦</span>
+            <span class="brand-title">AGOMONI BETAR</span>
+            <span class="brand-sub">RECEIVER • 108.5 kHz</span>
+            <span class="brand-time-badge" id="radio-time-badge" title="Live Time">--:-- --</span>
+            <span class="brand-crest">✦</span>
+          </div>
+
+          <!-- Top Right: Integrated Signal Bar & Power Button -->
+          <div class="radio-signal-power-module" id="radio-signal-power-module">
+            <button id="radio-power-btn" class="radio-power-btn is-powered" type="button" aria-label="Toggle Radio Power" title="Radio Power (ON/OFF)">
+              <span class="pwr-glyph" aria-hidden="true">⏻</span>
+              <span class="pwr-caption">PWR</span>
+            </button>
+            <div class="radio-signal-meter is-full-signal" id="radio-signal-meter" title="Radio Signal Quality">
+              <div class="signal-bars-track">
+                <span class="sig-bar bar-1"></span>
+                <span class="sig-bar bar-2"></span>
+                <span class="sig-bar bar-3"></span>
+                <span class="sig-bar bar-4"></span>
+              </div>
+              <span class="signal-readout" id="signal-readout">TUNED</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Phosphor Tuning Meter / Equalizer Screen -->
+        <div class="equalizer-screen-recess">
+          <canvas id="equalizer-canvas" class="equalizer-canvas" width="360" height="20" aria-hidden="true"></canvas>
+        </div>
+
+        <div class="radio-controls-row">
+          <!-- Left Large Rotary Tuner: Volume Control with Integrated Center Play/Pause Button -->
+          <div class="tuner-knob-unit" id="vol-unit" title="Rotate outer dial to alter volume (drag or scroll), click center to Play/Pause">
+            <span class="knob-label">VOLUME</span>
+            <div class="knob-bezel-housing">
+              <div class="rotary-knob" id="vol-knob" role="slider" aria-label="Volume rotary knob" aria-valuemin="0" aria-valuemax="100" aria-valuenow="70" tabindex="0">
+                <div class="knob-dial-plate">
+                  <div class="knob-tick-ring"></div>
+                  <div class="knob-pointer-notch"></div>
+                </div>
+                <!-- Integrated Push-Button in the Center of Volume Knob -->
+                <button id="play-btn" class="knob-core knob-center-play-btn" type="button" aria-label="Play or pause radio soundscape" title="Click center to Play/Pause">
+                  <svg id="play-icon" viewBox="0 0 24 24" aria-hidden="true">
+                    <polygon points="8 5 19 12 8 19 8 5"></polygon>
+                  </svg>
+                  <svg id="pause-icon" viewBox="0 0 24 24" style="display: none;" aria-hidden="true">
+                    <rect x="6" y="5" width="4" height="14" rx="1"></rect>
+                    <rect x="14" y="5" width="4" height="14" rx="1"></rect>
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <span class="knob-badge" id="vol-badge">70%</span>
+          </div>
+
+          <!-- Center: Illuminated Glass Radio Dial Window with Frequency Needle -->
+          <div class="radio-dial-glass-window">
+            <!-- Vintage Frequency Scale Markers (MW/kHz) -->
+            <div class="dial-vintage-scale" aria-hidden="true">
+              <span class="scale-band">MW kHz</span>
+              <span class="scale-numbers">530 • 700 • 900 • 1150 • 1400 • 1600</span>
+              <span class="scale-band">KOLKATA</span>
+            </div>
+
+            <!-- Radio Track Info Bar with Prev/Next buttons -->
+            <div class="radio-track-bar" id="radio-track-bar">
+              <button id="btn-prev-track" class="track-step-btn" type="button" aria-label="Previous Song" title="Previous Song">⟨</button>
+              <div class="track-marquee-wrap" id="track-marquee-wrap" title="Current Song">
+                <span class="track-playlist-tag is-clickable" id="track-playlist-tag" role="button" tabindex="0" title="শারদ প্লেলিস্ট দেখুন (Open Playlists)">মহালয়া ▾</span>
+                <span class="track-title-text" id="track-title-text">মহিষাসুরমর্দিনী (মূল চণ্ডীপাঠ)</span>
+                <span class="track-artist-text" id="track-artist-text">• বীরেন্দ্রকৃষ্ণ ভদ্র</span>
+              </div>
+              <button id="btn-next-track" class="track-step-btn" type="button" aria-label="Next Song" title="Next Song">⟩</button>
+            </div>
+
+            <div id="dial-container" class="frequency-dial-container" title="Slide along frequency line or rotate right knob to tune">
+              <div id="frequency-track" class="frequency-track">
+                <!-- Progress Line Accent -->
+                <div id="frequency-progress" class="frequency-progress"></div>
+
+                <!-- 6 Sacred Day Tick Marks -->
+                <div id="ticks-container" class="ticks-container"></div>
+
+                <!-- Sliding Glowing Needle (400ms ease) -->
+                <div id="frequency-needle" class="frequency-needle" role="slider" aria-label="Frequency needle" aria-valuemin="0" aria-valuemax="5" aria-valuenow="0">
+                  <span class="needle-glow-point"></span>
+                </div>
+              </div>
+
+              <!-- 6 Day Tick Labels Below -->
+              <div id="day-ticks-labels" class="day-ticks-labels"></div>
+            </div>
+          </div>
+
+          <!-- Right Large Rotary Tuner: Channel Tuning Knob -->
+          <div class="tuner-knob-unit" id="channel-unit" title="Rotate right knob to change channel (drag or scroll)">
+            <span class="knob-label">TUNING</span>
+            <div class="knob-bezel-housing">
+              <div class="rotary-knob" id="channel-knob" role="slider" aria-label="Channel rotary knob" aria-valuemin="0" aria-valuemax="5" aria-valuenow="0" tabindex="0">
+                <div class="knob-dial-plate">
+                  <div class="knob-tick-ring"></div>
+                  <div class="knob-core">
+                    <div class="knob-pointer-notch"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <span class="knob-badge" id="channel-badge">মহালয়া</span>
+          </div>
+        </div>
+
+        <!-- Vintage Radio Mechanical Selector Key Rack: In-Radio Dhak Beats & Puja Playlist Controls -->
+        <div class="radio-selector-strip" role="group" aria-label="Radio Selectors and Mode Keys">
+          <!-- In-Radio Dhak Beats Mode Push Key with Jewel Lamp -->
+          <button id="btn-dhak-mode" class="radio-selector-key radio-key-dhak" type="button" aria-label="Toggle Dhak Beats Mode" title="ঢাকের বাদ্যি • Festive Dhak Beats Broadcast">
+            <span class="radio-key-jewel" aria-hidden="true"></span>
+            <span class="radio-key-icon" aria-hidden="true">🥁</span>
+            <span class="radio-key-label" id="dhak-btn-label">ঢাকের বাদ্যি</span>
+            <span class="radio-key-badge">DHAK</span>
+          </button>
+
+          <!-- In-Radio Sharodotsav Playlist Key -->
+          <button id="btn-playlist-drawer" class="radio-selector-key radio-key-playlist" type="button" aria-label="Open Durga Puja Playlists" title="শারদ প্লেলিস্ট • Durga Puja Playlists">
+            <span class="radio-key-icon" aria-hidden="true">📻</span>
+            <span class="radio-key-label" id="playlist-btn-label">শারদ প্লেলিস্ট</span>
+            <span class="radio-key-badge">PLAYLIST</span>
+          </button>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Aesthetic Vintage Playlist Drawer / Modal -->
+    <div id="playlist-drawer-backdrop" class="playlist-backdrop" aria-hidden="true"></div>
+    <aside id="playlist-drawer" class="playlist-drawer" role="dialog" aria-modal="true" aria-label="Durga Puja Playlists">
+      <div class="playlist-drawer-header">
+        <div class="drawer-title-group">
+          <span class="drawer-icon">📻</span>
+          <div>
+            <h2 class="drawer-title" id="drawer-main-title">শারদোৎসব বেতার প্লেলিস্ট</h2>
+            <p class="drawer-subtitle" id="drawer-sub-title">Durga Puja YouTube Playlists & Dhak</p>
+          </div>
+        </div>
+        <button id="btn-close-drawer" class="drawer-close-btn" type="button" aria-label="Close Playlists">✕</button>
+      </div>
+
+      <!-- 3 Playlist Category Tabs: Mahalaya, Rest of the Days, and Dhak -->
+      <nav class="playlist-tabs-nav" aria-label="Playlist Categories">
+        <button class="playlist-tab-btn active" data-tab="mahalaya" type="button">
+          <span class="tab-label-bn">মহালয়া</span>
+          <span class="tab-sub">Mahalaya (Chandi Path)</span>
+        </button>
+        <button class="playlist-tab-btn" data-tab="pujoDays" type="button">
+          <span class="tab-label-bn">পূজার দিনগুলি</span>
+          <span class="tab-sub">Shasthi–Dashami</span>
+        </button>
+        <button class="playlist-tab-btn tab-dhak" data-tab="dhak" type="button">
+          <span class="tab-label-bn">🥁 ঢাকের বাদ্যি</span>
+          <span class="tab-sub">Dhak Beats</span>
+        </button>
+      </nav>
+
+      <!-- Playlist Tracks Scroll Area -->
+      <div class="playlist-tracks-container" id="playlist-tracks-container">
+        <!-- Rendered dynamically by script.js -->
+      </div>
+
+      <!-- Drawer Footer with YouTube info & Video Player Toggle -->
+      <div class="playlist-drawer-footer">
+        <div class="footer-yt-badge">
+          <span class="yt-dot"></span>
+          <span>YouTube Audio Player</span>
+        </div>
+        <button id="btn-toggle-video" class="toggle-video-btn" type="button">
+          <span id="video-toggle-label">ভিডিও দেখুন (Video)</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Hidden / Expandable YouTube Video Overlay Frame -->
+    <div id="yt-player-dock" class="yt-player-dock hidden">
+      <div class="yt-dock-header">
+        <span class="yt-dock-title" id="yt-dock-title">আকাশবাণী কলকাতা সম্প্রচার • YouTube Stream</span>
+        <button id="btn-hide-video" class="yt-dock-close" type="button" title="Hide Video">✕</button>
+      </div>
+      <div id="yt-iframe-container" class="yt-iframe-container">
+        <div id="youtube-player"></div>
+      </div>
+    </div>
+
+    <!-- Aesthetic Vintage Instructions Modal (ওয়েবসাইটের সম্পূর্ণ নির্দেশিকা) -->
+    <div id="instructions-backdrop" class="instructions-backdrop" aria-hidden="true"></div>
+    <aside id="instructions-modal" class="instructions-modal" role="dialog" aria-modal="true" aria-labelledby="instr-main-title">
+      <div class="instructions-header">
+        <div class="drawer-title-group">
+          <span class="drawer-icon">📜</span>
+          <div>
+            <h2 class="drawer-title" id="instr-main-title">শারদ তরঙ্গ • বেতার ব্যবহারের নির্দেশিকা</h2>
+            <p class="drawer-subtitle" id="instr-sub-title">Website Guide & How to Experience Sharod Taranga</p>
+          </div>
+        </div>
+        <button id="btn-close-instructions" class="drawer-close-btn" type="button" aria-label="Close Instructions">✕</button>
+      </div>
+
+      <div class="instructions-body" id="instructions-body">
+        <!-- Rendered with interactive rich cards in Bengali / English -->
+      </div>
+    </aside>
+
+    <!-- Aesthetic Vintage Popup Instruction Note (পপআপ নির্দেশিকা চিরকুট) -->
+    <div id="popup-instruction-note" class="popup-instruction-note hidden" role="region" aria-label="Quick Instruction Note">
+      <div class="note-pin" aria-hidden="true"></div>
+      <div class="note-header">
+        <div class="note-title-wrap">
+          <span class="note-icon" aria-hidden="true">📜</span>
+          <div>
+            <h3 class="note-title" id="note-title">বেতার ব্যবহারের নির্দেশিকা নোট</h3>
+            <span class="note-subtitle" id="note-subtitle">Agomoni Betar • Quick Instruction Note</span>
+          </div>
+        </div>
+        <button id="btn-close-note" class="note-close-btn" type="button" aria-label="Close Note" title="Close Note">✕</button>
+      </div>
+
+      <div class="note-body" id="note-body">
+        <div class="note-item">
+          <span class="note-bullet">📻</span>
+          <p class="note-text" id="note-txt-1"><strong>রেডিও চালান:</strong>Volume নবের কেন্দ্রে স্পর্শ করুন।</p>
+        </div>
+        <div class="note-item">
+          <span class="note-bullet">🎛️</span>
+          <p class="note-text" id="note-txt-2"><strong>সুর সন্ধান:</strong> ডায়ালে <em>মহালয়া থেকে দশমী</em> স্পর্শ করুন বা Tuning নব ঘুরিয়ে দিন পাল্টান।</p>
+        </div>
+        <div class="note-item">
+          <span class="note-bullet">🥁</span>
+          <p class="note-text" id="note-txt-3"><strong>ঢাকের বাদ্যি:</strong> নিচের <em>🥁 ঢাকের বাদ্যি</em> পুশ-কী চাপলে উৎসবের খাঁটি ঢাক বাজবে।</p>
+        </div>
+        <div class="note-item">
+          <span class="note-bullet">🏠</span>
+          <p class="note-text" id="note-txt-4"><strong>শারদ তরঙ্গ হোম:</strong> ওপরের বাঁদিকের <em>🏠 হোম</em> বোতামে চাপলেই শারদ তরঙ্গ পেজে ফিরবেন।</p>
+        </div>
+      </div>
+
+      <div class="note-footer">
+        <button id="btn-note-full-guide" class="btn-note-secondary" type="button">
+          <span id="note-full-label">সম্পূর্ণ গাইড ↗</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Pure External Script -->
+    <script type="module" src="/script.js"></script>
+  </body>
+</html>
