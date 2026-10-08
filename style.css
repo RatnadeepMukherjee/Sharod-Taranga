@@ -2536,3 +2536,4 @@ body.intro-lock { overflow: hidden; }
             mask-image: linear-gradient(to bottom, transparent 0, #000 14%, #000 86%, transparent 100%);
   }
 }
+.intro-sound { display: none !important; }
