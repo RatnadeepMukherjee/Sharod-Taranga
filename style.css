@@ -2535,5 +2535,31 @@ body.intro-lock { overflow: hidden; }
     -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 14%, #000 86%, transparent 100%);
             mask-image: linear-gradient(to bottom, transparent 0, #000 14%, #000 86%, transparent 100%);
   }
+};
+
+/* Tap-for-sound: shown only when the browser blocks sound. Top right, responsive. */
+.intro-sound{
+  position:absolute; z-index:4;
+  top:max(14px, env(safe-area-inset-top));
+  right:max(14px, env(safe-area-inset-right));
+  left:auto; transform:none;
+  display:inline-flex; align-items:center; gap:8px;
+  padding:9px 15px; border-radius:999px; cursor:pointer;
+  font-size:clamp(.72rem, 1.6vw, .9rem); color:#fff4dc; white-space:nowrap;
+  background:rgba(20,10,5,.72);
+  border:1px solid rgba(245,166,35,.8);
+  backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+  box-shadow:0 6px 20px rgba(0,0,0,.5);
+  animation:sndPulse 1.8s ease-in-out infinite;
 }
-.intro-sound { display: none !important; }
+.intro-sound[hidden]{display:none}
+.intro-sound .snd-ic{font-size:1.1em; line-height:1}
+@keyframes sndPulse{
+  0%,100%{box-shadow:0 6px 20px rgba(0,0,0,.5), 0 0 0 0 rgba(245,166,35,.55)}
+  50%{box-shadow:0 6px 20px rgba(0,0,0,.5), 0 0 0 8px rgba(245,166,35,0)}
+}
+@media (max-width:480px){
+  .intro-sound{padding:9px 11px}
+  .intro-sound .snd-tx{display:none}     /* icon only on small phones */
+}
+@media (prefers-reduced-motion:reduce){ .intro-sound{animation:none} }

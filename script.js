@@ -2058,22 +2058,33 @@ setInterval(updateClock, 1000);
 updateClock();
 
 // 2. Durga Pujo Countdown
-function updateCountdown() {
-  // Approximate autumn Pujo date in current year
-  const now = new Date();
-  let pujoYear = now.getFullYear();
-  let pujoDate = new Date(pujoYear, 9, 8); // Autumn October
-  if (now > pujoDate) {
-    pujoDate = new Date(pujoYear + 1, 9, 8);
-  }
-  const diffDays = Math.max(1, Math.ceil((pujoDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)));
+const MAHALAYA_DATES = { 2026: '2026-10-10' };   // add future years here, YYYY-MM-DD
+const toBn = (n) => String(n).replace(/\d/g, (d) => '০১২৩৪৫৬৭৮৯'[d]);
 
-  if (currentLanguage === 'bn') {
-    countdownText.textContent = `পুজোর আর ${diffDays} দিন বাকি`;
-  } else {
-    countdownText.textContent = `${diffDays} days until Durga Pujo`;
+function updateCountdown() {
+  if (!countdownText) return;
+  const istNow = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
+  const today = new Date(istNow.getFullYear(), istNow.getMonth(), istNow.getDate());
+
+  let target = null;
+  for (const y of Object.keys(MAHALAYA_DATES).sort()) {
+    const [Y, M, D] = MAHALAYA_DATES[y].split('-').map(Number);
+    const d = new Date(Y, M - 1, D);
+    if (d >= today) { target = d; break; }
   }
+
+  let bn, en;
+  if (!target) {
+    bn = 'শুভ শারদীয়া'; en = 'Shubho Sharodiya';
+  } else {
+    const days = Math.round((target - today) / 86400000);
+    if (days === 0)      { bn = 'আজ মহালয়া 🪔'; en = 'Mahalaya is today'; }
+    else if (days === 1) { bn = 'মহালয়ার আর ১ দিন বাকি'; en = '1 day until Mahalaya'; }
+    else                 { bn = `মহালয়ার আর ${toBn(days)} দিন বাকি`; en = `${days} days until Mahalaya`; }
+  }
+  countdownText.textContent = currentLanguage === 'bn' ? bn : en;
 }
+setInterval(updateCountdown, 3600000);   // refresh hourly so it flips at midnight
 
 updateCountdown();
 
@@ -2423,7 +2434,7 @@ if (dockEl && window.ResizeObserver) new ResizeObserver(fitBgToFreeArea).observe
 const REMINDERS = [
   {
     id: 'mahalaya',
-    month: 10, day: 4, hour: 4, minute: 0,   // 4 Oct, 9:00 AM local time (change as you like)
+    month: 10, day: 10, hour: 4, minute: 0,   // 10 Oct, 4:00 AM local time (change as you like)
     titleBn: 'মহালয়া আসছে! 🪔',
     titleEn: 'Mahalaya is coming!',
     bodyBn: 'ভোর ৪টায় মহিষাসুরমর্দিনী শুনতে রেডিও চালু রাখুন।',
