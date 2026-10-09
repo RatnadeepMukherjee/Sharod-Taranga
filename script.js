@@ -68,6 +68,7 @@
   try { if (SHOW_ONCE_PER_SESSION && sessionStorage.getItem('st_intro_seen')) { intro.classList.add('is-gone'); return; } } catch {}
 
   document.body.classList.add('intro-lock');
+    if (skipBtn) skipBtn.hidden = false;
 
   function pickSrc() {
     return window.innerHeight > window.innerWidth ? SRC.portrait : SRC.landscape;
@@ -123,8 +124,8 @@ window.__introBegin = begin;            // so the loader can call it
     setTimeout(() => { intro.classList.add('is-gone'); video.removeAttribute('src'); video.load(); }, 1300);
   }
   video.addEventListener('ended', finish);
-  skipBtn.addEventListener('click', finish);
-  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !intro.classList.contains('is-gone')) finish(); });
+  if (skipBtn) skipBtn.addEventListener('click', finish);
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !intro.classList.contains('is-gone')) finish(); });
 
   // 4. If the phone is rotated before playback starts, switch to the right file
   window.addEventListener('resize', () => {
@@ -220,33 +221,6 @@ const PUJA_DAYS = [
 // YOUTUBE PLAYLISTS: 1. SHAROD TARANGA, 2. MAHALAYA, 3. PUJO DAYS, 4. DHAK
 // ==========================================================================
 const PLAYLISTS = {
-  sharod: {
-    key: 'sharod',
-    titleBn: 'শারদ তরঙ্গ • আগমনী সুরতরঙ্গ ও আবহ',
-    titleEn: 'Sharod Taranga • Autumn Prelude',
-    tagBn: 'শারদ তরঙ্গ',
-    tagEn: 'Sharod Taranga',
-    tracks: [
-      {
-        id: 'st-1',
-        youtubeId: 'b-yY538ePek',
-        titleBn: 'শারদ তরঙ্গ • বাজল তোমার আলোর বেণু',
-        titleEn: 'Sharod Taranga • Bajlo Tomar Alor Benu',
-        artistBn: 'সুপ্রীতি ঘোষ ও আকাশবাণী কলকাতা',
-        artistEn: 'Supriti Ghosh & Akashvani Kolkata',
-        duration: '3:45'
-      },
-      {
-        id: 'st-2',
-        youtubeId: 'eH6X4g_T35U',
-        titleBn: 'ওগো আমার আগমনী',
-        titleEn: 'Ogo Amar Agomoni',
-        artistBn: 'মানবেন্দ্র মুখোপাধ্যায়',
-        artistEn: 'Manabendra Mukhopadhyay',
-        duration: '3:50'
-      }
-    ]
-  },
   mahalaya: {
     key: 'mahalaya',
     titleBn: 'মহালয়া • চণ্ডীপাঠ ও আগমনী গান',
@@ -265,7 +239,7 @@ const PLAYLISTS = {
       },
       {
         id: 'mah-2',
-        youtubeId: 'OVIN6Iz687o',
+        src: '/audio/Jago Durga Dashapraharanadharinee.mp3',
         titleBn: 'জাগো তুমি জাগো',
         titleEn: 'Jaago Tumi Jaago',
         artistBn: 'দ্বিজেন মুখোপাধ্যায়',
@@ -274,7 +248,7 @@ const PLAYLISTS = {
       },
       {
         id: 'mah-3',
-        youtubeId: 'h01sS1jY69c',
+        src: '/audio/Bajlo Tomar Aalor Benu.mp3',
         titleBn: 'বাজল তোমার আলোর বেণু',
         titleEn: 'Bajlo Tomar Alor Benu',
         artistBn: 'শিপ্রা বসু',
@@ -283,7 +257,7 @@ const PLAYLISTS = {
       },
       {
         id: 'mah-4',
-        youtubeId: 'MgRe-FltkYo',
+        src: '/audio/Tabo Achintya RupaCharita Mahima.mp3',
         titleBn: 'তব অচিন্ত্য রূপচরিত মহিমা',
         titleEn: 'Tabo Achintya Rupacharita Mahima',
         artistBn: 'পঙ্কজ মল্লিক',
@@ -292,7 +266,7 @@ const PLAYLISTS = {
       },
       {
         id: 'mah-5',
-        youtubeId: '_RmN29SHVS8',
+        src: '/audio/Ogo Amar Agamani Alo.mp3',
         titleBn: 'ওগো আমার আগমনী',
         titleEn: 'Ogo Amar Agomoni',
         artistBn: 'শিপ্রা বসু',
@@ -301,7 +275,7 @@ const PLAYLISTS = {
       },
       {
         id: 'mah-6',
-        youtubeId: '5G1nL6w5f1g',
+        src: '/audio/Rupang Dehi Jayang Dehi Stotra.mp3',
         titleBn: 'রূপং দেহি জয়ং দেহি • স্তোত্রপাঠ',
         titleEn: 'Rupang Dehi Jayang Dehi Stotra',
         artistBn: 'আকাশবাণী সমবেত শিল্পী দল',
@@ -310,49 +284,59 @@ const PLAYLISTS = {
       },
        {
         id: 'mah-7',
-        youtubeId: '6ZCfPaz28_U',
+        src: '/audio/Ya Chandi.mp3',
         titleBn: 'য়া চণ্ডী',
         titleEn: 'Ya Chandi',
         artistBn: 'আকাশবাণী সমবেত শিল্পী দল',
         artistEn: 'Akashvani Classical Chorus',
         duration: '4:40'
       },
-      {
-        id: 'mah-8',
-        youtubeId: '6ZCfPaz28_U',
-        titleBn: 'সুভ্রা শঙ্খরবে',
-        titleEn: 'Subhra SankhaRabe',
-        artistBn: 'শ্যামল মিত্র, অসীমা ভট্টাচার্য, আরতি মুখপাধ্যায় ও দল',
-        artistEn: 'Shyamal Mitra, Asima Bhattacherjee, Arati Mukhapadhyae & Chorus',
-        duration: '2:49'
-      },
        {
-        id: 'mah-9',
-        youtubeId: '13v5WqqGVvE',
-        titleBn: 'সুভ্রা শঙ্খরবে',
+        id: 'mah-8',
+        src: '/audio/Jaya Jaya Japyajaye.mp3',
+        titleBn: 'জয় জয় জপ্যজয়',
         titleEn: 'Jaya Jaya Japyajaye',
         artistBn: 'আকাশবাণী সমবেত শিল্পী দল',
         artistEn: 'Akashvani Classical Chorus',
         duration: '2:49'
+      },
+       {
+        id: 'mah-9',
+        src: '/audio/Simhasta Sashishekhara.mp3',
+        titleBn: 'সিংহস্থা শশিশেখরা ',
+        titleEn: 'Simhasta Sashishekhara',
+        artistBn: 'আকাশবাণী সমবেত শিল্পী দল',
+        artistEn: 'Akashvani Classical Chorus',
+        duration: '0:55'
       },
        {
         id: 'mah-10',
-        youtubeId: 'dQZrQ-za8Gc',
-        titleBn: 'সিংহস্থা শশিশেখরা ',
-        titleEn: 'Singhastha Sashishekhara',
+        src: '/audio/Aham Rudrebhirvasubhischara.mp3',
+        titleBn: 'অহম রুদ্রভীরবসুভিশ্চরা',
+        titleEn: 'Aham Rudrebhirvasubhischara',
         artistBn: 'আকাশবাণী সমবেত শিল্পী দল',
         artistEn: 'Akashvani Classical Chorus',
-        duration: '2:49'
+        duration: '3:59'
       },
        {
-        id: 'mah-9',
-        youtubeId: '13v5WqqGVvE',
-        titleBn: 'সুভ্রা শঙ্খরবে',
-        titleEn: 'Jaya Jaya Japyajaye',
+        id: 'mah-11',
+        src: '/audio/Akhila-Bimane Taba Jaya.mp3',
+        titleBn: 'অখিল-বিমান তব জয়',
+        titleEn: 'Akhila-Bimane Taba Jaya',
         artistBn: 'আকাশবাণী সমবেত শিল্পী দল',
         artistEn: 'Akashvani Classical Chorus',
-        duration: '2:49'
-      }
+        duration: '4:02'
+      },
+       {
+        id: 'mah-12',
+        src: '/audio/Jatajutasamayuktamardhendukrita-Sekharam.mp3',
+        titleBn: 'জটাযুত সামযুক্তমর্ধেন্দুকৃত-শেখরম',
+        titleEn: 'Jatajutasamayuktamardhendukrita-Sekharam',
+        artistBn: 'আকাশবাণী সমবেত শিল্পী দল',
+        artistEn: 'Akashvani Classical Chorus',
+        duration: '4:27'
+      },
+
     ]
   },
     pujoDays: {
@@ -364,7 +348,7 @@ const PLAYLISTS = {
     tracks: [
       {
         id: 'pujo-playlist',
-        playlistId: 'PASTE_PLAYLIST_ID_HERE',   // the part after list= in the playlist link
+        playlistId: 'PLMqKtTPxSl7k',   // the part after list= in the playlist link
         titleBn: 'পুজোর গান • প্লেলিস্ট',
         titleEn: 'Pujo Songs • Playlist',
         artistBn: 'শারদোৎসব',
@@ -373,60 +357,19 @@ const PLAYLISTS = {
       }
     ]
   },
+      
+
   dhak: {
     key: 'dhak',
-    titleBn: 'ঢাকের বাদ্যি ও কাঁসর-ঘণ্টা (Dhak Beats)',
-    titleEn: 'Durga Puja Dhak Beats & Rhythms',
+    titleBn: 'ঢাকের বাদ্যি (Dhak Beats)',
+    titleEn: 'Durga Puja Dhak Beats',
     tagBn: 'ঢাক',
     tagEn: 'Dhak',
     tracks: [
-      {
-        id: 'dhak-1',
-        youtubeId: 'i1r8247faTY',
-        titleBn: 'শারদোৎসবের খাঁটি ঢাকের বাদ্যি ও বোল',
-        titleEn: 'Durga Puja Authentic Dhak Beats & Rhythm',
-        artistBn: 'বাংলার ঐতিহ্যবাহী ঢাকী সম্প্রদায়',
-        artistEn: 'Traditional Bengali Dhak Troupe',
-        duration: '10:05'
-      },
-      {
-        id: 'dhak-2',
-        youtubeId: '4_c-xXhS_fA',
-        titleBn: 'সন্ধিপূজার ১০৮ প্রদীপের মহাধাক বাদন',
-        titleEn: 'Sandhi Puja 108 Deepam Grand Dhak',
-        artistBn: 'কাশী বোস লেন সর্বজনীন ঢাকী মণ্ডলী',
-        artistEn: 'North Calcutta Master Dhakis',
-        duration: '6:12'
-      },
-      {
-        id: 'dhak-3',
-        youtubeId: 'i1r8247faTY',
-        titleBn: 'উন্মাতাল ধুনুচি নাচের দ্রুত ত্রিতাল ঢাক',
-        titleEn: 'Ecstatic Fast Dhunuchi Naach Dhak',
-        artistBn: 'মুর্শিদাবাদের ওস্তাদ ঢাকী সম্প্রদায়',
-        artistEn: 'Murshidabad Master Dhakis',
-        duration: '10:05'
-      },
-      {
-        id: 'dhak-4',
-        youtubeId: 'W_x4iK24p8w',
-        titleBn: 'রাজবাড়ি বনেদি দুর্গাপূজা ঢাকের কাঠি',
-        titleEn: 'Heritage Rajbari Traditional Dhak Bol',
-        artistBn: 'শোভাবাজার রাজবাড়ি ঢাক বাদকদল',
-        artistEn: 'Shovabazar Rajbari Dhakis',
-        duration: '8:40'
-      },
-      {
-        id: 'dhak-5',
-        youtubeId: 'i1r8247faTY',
-        titleBn: 'বিজয়া দশমীর সিঁদুরখেলা ও বিদায়ী ঢাক',
-        titleEn: 'Bisarjan & Sindoor Khela Farewell Dhak',
-        artistBn: 'গঙ্গার ঘাটে সমবেত ঢাকী বৃন্দ',
-        artistEn: 'Babu Ghat Farewell Dhakis',
-        duration: '10:05'
-      }
+      { id: 'dhak-1', youtubeId: 'DZ21CSg22nc', titleBn: 'শারদোৎসবের খাঁটি ঢাকের বাদ্যি', titleEn: 'Durga Puja Authentic Dhak Beats',   artistBn: 'ঢাকী দল', artistEn: 'Dhaki Troupe', duration: '6:29'},
+      { id: 'dhak-2', youtubeId: 'i1r8247faTY', titleBn: 'উন্মাতাল ধুনুচি নাচের দ্রুত ত্রিতাল ঢাক', titleEn: 'Ecstatic Fast Dhunuchi Naach Dhak',   artistBn: 'ঢাকী দল', artistEn: 'Dhaki Troupe', duration: '4:07'},
     ]
-  }
+  },
 };
 
 // ==========================================================================
@@ -440,6 +383,7 @@ let atmosphereActive = true;
 
 let currentPlaylistKey = 'sharod'; // 'sharod' | 'mahalaya' | 'pujoDays' | 'dhak'
 let currentTrackIndex = 0;
+let lastMahalayaIndex = 0;   // 0 = Chandi Path; remembers the last Mahalaya song
 let isDhakMode = false;
 let isRadioPowered = true;
 let activeDrawerTab = 'mahalaya';
@@ -769,6 +713,7 @@ let currentVolAngle = -135 + 270 * 0.7; // +54deg for 70% default volume
 
 let currentActiveBgLayer = bgLayer1;
 let currentInactiveBgLayer = bgLayer2;
+let currentBgUrl = '';
 
 // ==========================================================================
 // INITIAL SETUP: DAY TICKS & DIAL NEEDLE
@@ -860,27 +805,34 @@ function updateUIForDay(dayIndex, isInitial = false) {
     channelKnob.setAttribute('aria-valuenow', dayIndex);
   }
 
-  // 6. Background Cross-Fade (800ms) with Subtle Tuning Flicker
+    // 6. Background Cross-Fade (800ms) with Subtle Tuning Flicker
   const targetBg = isLandingPage ? '/images/durga_sharod_taranga_1791114431998.jpg' : day.bgImage;
   if (isInitial) {
     currentActiveBgLayer.style.backgroundImage = `url("${targetBg}")`;
     currentActiveBgLayer.style.setProperty('--bg-url', `url("${targetBg}")`);
+    currentActiveBgLayer.classList.remove('prev');
+    currentActiveBgLayer.classList.add('active');
     currentInactiveBgLayer.classList.remove('active');
-  } else {
-    // Tuning flicker effect on current layer
+    currentInactiveBgLayer.classList.add('prev');
+    currentBgUrl = targetBg;
+  } else if (targetBg !== currentBgUrl) {          // same image (e.g. language switch) → no fade needed
+    currentBgUrl = targetBg;
     currentActiveBgLayer.classList.add('tuning-flicker');
 
-    // Prepare next layer
+    // Prepare and show the next layer
     currentInactiveBgLayer.style.backgroundImage = `url("${targetBg}")`;
     currentInactiveBgLayer.style.setProperty('--bg-url', `url("${targetBg}")`);
+    currentInactiveBgLayer.classList.remove('prev');
+    currentInactiveBgLayer.classList.add('active');
     currentActiveBgLayer.classList.remove('active');
+    currentActiveBgLayer.classList.add('prev');
 
+    const fadingOut = currentActiveBgLayer;
+    const fadingIn = currentInactiveBgLayer;
     setTimeout(() => {
-      currentActiveBgLayer.classList.remove('tuning-flicker');
-      // Swap layer references
-      const temp = currentActiveBgLayer;
-      currentActiveBgLayer = currentInactiveBgLayer;
-      currentInactiveBgLayer = temp;
+      fadingOut.classList.remove('tuning-flicker');
+      currentActiveBgLayer = fadingIn;
+      currentInactiveBgLayer = fadingOut;
     }, 800);
   }
 }
@@ -928,8 +880,7 @@ function updateTrackBarUI() {
     trackTitleText.textContent = currentLanguage === 'bn' ? track.titleBn : track.titleEn;
   }
   if (trackArtistText) {
-    trackArtistText.textContent = currentLanguage === 'bn' ? `• ${track.artistBn}` : `• ${track.artistEn}`;
-  }
+trackArtistText.textContent = `• ${(currentLanguage === 'bn' ? track.artistBn : track.artistEn) || ''}`;  }
 
   const ytDockTitle = document.getElementById('yt-dock-title');
   if (ytDockTitle) {
@@ -978,6 +929,7 @@ function playTrack(playlistKey, trackIndex, autoPlay = true) {
   if (!pl || !pl.tracks[trackIndex]) return;
 
   currentPlaylistKey = playlistKey;
+    if (playlistKey === 'mahalaya') lastMahalayaIndex = trackIndex;
   currentTrackIndex = trackIndex;
   const track = pl.tracks[trackIndex];
 
@@ -1069,11 +1021,10 @@ function toggleDhakMode() {
   } else {
     // Return to current day's radio frequency & playlist
     const dayKey = currentDayIndex === 0 ? 'mahalaya' : 'pujoDays';
-    let trackIdx = 0;
-    if (dayKey === 'pujoDays') {
+    let trackIdx = dayKey === 'mahalaya' ? lastMahalayaIndex : 0;    if (dayKey === 'pujoDays') {
       trackIdx = Math.max(0, Math.min(currentDayIndex - 1, PLAYLISTS.pujoDays.tracks.length - 1));
     }
-    playTrack(dayKey, trackIdx, isPlaying);
+  playTrack(dayKey, trackIdx, true);
   }
 }
 
@@ -1123,14 +1074,11 @@ function tuneToDay(dayIndex) {
   audio.playTuningStatic();
 
   // 2. Update UI & Cross-Fade Artwork
-  updateUIForDay(dayIndex);
-
-  // 3. Audio Continuity: Route to Mahalaya (Day 0) or Rest of Days (Day 1-5)
-  if (dayIndex === 0) {
-    playTrack('mahalaya', 0, isPlaying);
+    if (dayIndex === 0) {
+    playTrack('mahalaya', lastMahalayaIndex, true);
   } else {
     const trackIdx = Math.min(dayIndex - 1, PLAYLISTS.pujoDays.tracks.length - 1);
-    playTrack('pujoDays', trackIdx, isPlaying);
+    playTrack('pujoDays', trackIdx, true);
   }
 }
 
@@ -1222,7 +1170,7 @@ function setupYouTubePlayer() {
               playNextTrack();
             }
           },
-          onError: () => {
+                    onError: () => {
             setSignalMeter('weak');
             if (isPlaying) {
               audio.startDayMusic(currentDayIndex);
@@ -1239,7 +1187,9 @@ function setupYouTubePlayer() {
 }
 
 window.onYouTubeIframeAPIReady = setupYouTubePlayer;
-
+// The YouTube script can finish loading before this file runs. If so, the callback above
+// is never called and the player is never created. Start it ourselves in that case.
+if (window.YT && window.YT.Player) setupYouTubePlayer();
 // Playlist Drawer Rendering & Navigation
 function renderPlaylistTracks(tabKey) {
   if (!playlistTracksContainer) return;
@@ -1265,7 +1215,7 @@ function renderPlaylistTracks(tabKey) {
         <span class="track-index-num">${String(idx + 1).padStart(2, '0')}</span>
         <div class="track-meta-group">
           <span class="track-name-main">${currentLanguage === 'bn' ? track.titleBn : track.titleEn}</span>
-          <span class="track-artist-sub">${currentLanguage === 'bn' ? track.artistBn : track.artistEn}</span>
+<span class="track-artist-sub">${(currentLanguage === 'bn' ? track.artistBn : track.artistEn) || ''}</span>
         </div>
       </div>
       <div class="track-row-right">
@@ -1299,13 +1249,20 @@ function renderPlaylistTracks(tabKey) {
     playlistTracksContainer.appendChild(row);
   });
 }
-
+// Show only the playlist that belongs to the current day (Dhak tab stays available)
+function syncDrawerToDay() {
+  const own = currentDayIndex === 0 ? 'mahalaya' : 'pujoDays';
+  document.querySelectorAll('.playlist-tab-btn').forEach((btn) => {
+    const t = btn.dataset.tab;
+    btn.style.display = (t === own || t === 'dhak') ? '' : 'none';
+  });
+  renderPlaylistTracks(isDhakMode ? 'dhak' : own);
+}
 function openPlaylistDrawer() {
   if (playlistDrawer) playlistDrawer.classList.add('open');
   if (playlistBackdrop) playlistBackdrop.classList.add('open');
   if (btnPlaylistDrawer) btnPlaylistDrawer.classList.add('drawer-open');
-  renderPlaylistTracks(activeDrawerTab);
-}
+  syncDrawerToDay();}
 
 function closePlaylistDrawer() {
   if (playlistDrawer) playlistDrawer.classList.remove('open');
@@ -1497,14 +1454,7 @@ function hidePopupInstructionNote() {
 }
 
 if (btnInstructions) {
-  btnInstructions.addEventListener('click', () => {
-    // If popup note is currently open, show full modal; otherwise show popup note
-    if (popupInstructionNote && !popupInstructionNote.classList.contains('hidden')) {
-      openInstructions();
-    } else {
-      showPopupInstructionNote();
-    }
-  });
+  btnInstructions.addEventListener('click', openInstructions);   // opens the full guide directly
 }
 
 if (btnCloseNote) {
@@ -1529,11 +1479,6 @@ if (btnCloseInstructions) {
 if (instructionsBackdrop) {
   instructionsBackdrop.addEventListener('click', closeInstructions);
 }
-
-// Automatically show the popup instruction note shortly after initial load
-setTimeout(() => {
-  showPopupInstructionNote();
-}, 1200);
 
 // Wire Event Handlers
 if (btnDhakMode) {
@@ -2541,3 +2486,91 @@ if (lsGet(REMIND_KEY, false)) remindBtn?.classList.add('is-on');
 checkReminders();
 setInterval(checkReminders, 60 * 1000);
 document.addEventListener('visibilitychange', () => { if (!document.hidden) checkReminders(); });
+
+// ===== "Click here" hint for the instructions button (5s after landing page appears) =====
+(function () {
+  const btn = document.getElementById('btn-instructions');
+  if (!btn) return;
+
+  const hint = document.createElement('div');
+  hint.className = 'instr-hint';
+  hint.setAttribute('aria-hidden', 'true');
+  document.body.appendChild(hint);
+
+  // Shows only ONE language, following the language toggle
+  const TEXT = {
+    bn: 'দ্রুত নির্দেশিকার জন্য এখানে ক্লিক করুন',
+    en: 'Click here for quick instructions'
+  };
+    function lang() {
+    return document.body.classList.contains('lang-en') ? 'en' : 'bn';
+  }
+  function render() { hint.textContent = TEXT[lang()]; requestAnimationFrame(place); }
+  
+    // Place the hint under the 📜 button and aim the arrow at its centre
+  function place() {
+    const r = btn.getBoundingClientRect();
+    const w = hint.offsetWidth;
+    const cx = r.left + r.width / 2;
+    let left = cx - w / 2;
+    left = Math.max(8, Math.min(left, window.innerWidth - w - 8));
+    hint.style.left = left + 'px';
+    hint.style.right = 'auto';
+    hint.style.top = (r.bottom + 10) + 'px';
+    hint.style.setProperty('--arrow-x', (cx - left) + 'px');
+  }
+  const toggle = document.getElementById('lang-toggle');
+  if (toggle) toggle.addEventListener('click', () => setTimeout(render, 0));
+  
+
+  let shown = false, timer = null;
+  function hide() { clearTimeout(timer); hint.classList.remove('show'); }
+  function show() {
+    if (shown) return;
+    shown = true;
+    render();    
+    place();
+    hint.classList.add('show');
+
+    hint.classList.add('show');
+    timer = setTimeout(hide, 15000);              // gone 5 seconds after the landing page appears
+  }
+    window.addEventListener('resize', place);
+  btn.addEventListener('click', hide);
+
+  const intro = document.getElementById('intro');
+  if (!intro || intro.classList.contains('is-gone')) {
+    setTimeout(show, 600);
+  } else {
+    const mo = new MutationObserver(() => {
+      if (intro.classList.contains('is-leaving') || intro.classList.contains('is-gone')) {
+        mo.disconnect();
+        setTimeout(show, 700);
+      }
+    });
+    mo.observe(intro, { attributes: true, attributeFilter: ['class'] });
+  }
+})();
+
+// ===== Tip above the radio (follows the page language) =====
+(function () {
+  const dock = document.querySelector('.radio-dock');
+  if (!dock) return;
+
+  const tip = document.createElement('div');
+  tip.className = 'radio-tip';
+  tip.setAttribute('aria-hidden', 'true');
+  dock.insertBefore(tip, dock.firstChild);
+
+  const TEXT = {
+    bn: 'রেডিওর দিনগুলিতে ক্লিক করে দিন বদলান, আর ডান দিকের নব ঘুরিয়ে আপনার প্রিয় গান বেছে নিন',
+    en: 'Click a day on the radio bar to navigate, and rotate the right knob to tune your favourite song'
+  };
+  function render() {
+    tip.textContent = document.body.classList.contains('lang-en') ? TEXT.en : TEXT.bn;
+  }
+  render();
+
+  const toggle = document.getElementById('lang-toggle');
+  if (toggle) toggle.addEventListener('click', () => setTimeout(render, 0));
+})();

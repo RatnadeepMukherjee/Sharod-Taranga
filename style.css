@@ -2520,23 +2520,6 @@ body.intro-lock { overflow: hidden; }
 }
 .intro-sound[hidden]{display:none}
 
-@media (max-aspect-ratio: 1/1) {
-  body.is-landing-active .bg-layer::before,
-  body.is-landing-active .bg-layer::after {
-    content: ""; position: absolute; background: inherit; background-repeat: no-repeat;
-  }
-  body.is-landing-active .bg-layer::before {            /* blurred fill */
-    inset: -6%; background-size: cover; background-position: center;
-    filter: blur(22px) brightness(.8);
-  }
-  body.is-landing-active .bg-layer::after {             /* sharp image, title fully visible */
-    left: 0; right: 0; top: 11vh; height: 117.3vw;
-    background-size: 250% 110%; background-position: center top;
-    -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 14%, #000 86%, transparent 100%);
-            mask-image: linear-gradient(to bottom, transparent 0, #000 14%, #000 86%, transparent 100%);
-  }
-};
-
 /* Tap-for-sound: shown only when the browser blocks sound. Top right, responsive. */
 .intro-sound{
   position:absolute; z-index:4;
@@ -2563,3 +2546,135 @@ body.intro-lock { overflow: hidden; }
   .intro-sound .snd-tx{display:none}     /* icon only on small phones */
 }
 @media (prefers-reduced-motion:reduce){ .intro-sound{animation:none} }
+
+/* Phone view: fit every background image to the screen (no squeeze, no crop of the middle) */
+@media (max-aspect-ratio: 1/1) {
+  .bg-layer { --fit: 1.8; }                         /* 1.8 = image is 180% of screen width; bigger = more zoomed */
+  body.is-landing-active .bg-layer { --fit: 2.1; }  /* landing image has the title, so it fits the title width */
+
+  .bg-layer::before,
+  .bg-layer::after {
+    content: ""; position: absolute;
+    background: inherit; background-repeat: no-repeat;
+  }
+  .bg-layer::before {                               /* soft blurred fill */
+    inset: -6%;
+    background-size: cover; background-position: center;
+    filter: blur(22px) brightness(.8);
+  }
+  .bg-layer::after {                                /* the sharp picture, centred above the radio */
+    left: 0; right: 0;
+    top: max(56px, calc((var(--bg-h, 60vh) - var(--fit) * 55.87vw) / 2 + 14px));
+    height: calc(var(--fit) * 55.87vw);
+    background-size: calc(var(--fit) * 100%) 100%;
+    background-position: center top;
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 12%, #000 88%, transparent 100%);
+            mask-image: linear-gradient(to bottom, transparent 0, #000 12%, #000 88%, transparent 100%);
+  }
+}
+
+/* English labels on phones: show full day names, not Maha/Shas/Sapt… */
+@media (max-width: 600px) {
+  body.lang-en .day-tick-full  { display: inline !important; }
+  body.lang-en .day-tick-short { display: none !important; }
+  body.lang-en .day-tick-button { font-size: 8.5px; letter-spacing: -0.2px; padding: 2px 0; }
+}
+@media (max-width: 360px) {
+  body.lang-en .day-tick-button { font-size: 7.5px; letter-spacing: -0.3px; }
+}
+
+/* "Click here" hint above the instructions button */
+.instr-hint {
+  position: fixed;
+  top: 58px;                      /* just under the top bar */
+  right: 12px;
+  z-index: 26;
+  pointer-events: none;           /* never blocks clicks or the image */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  padding: 5px 11px;
+  border-radius: 12px;
+  background: rgba(20, 12, 7, 0.82);
+  border: 1px solid rgba(255, 215, 150, 0.5);
+  color: #ffd166;
+  font-family: var(--font-bengali);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.25;
+  text-align: center;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5), 0 0 14px rgba(245, 166, 35, 0.35);
+  opacity: 0;
+  transform: translateY(-6px);
+  transition: opacity 400ms ease, transform 400ms ease;
+}
+.instr-hint.show { opacity: 1; transform: translateY(0); animation: instrHintBob 1.4s ease-in-out infinite alternate; }
+.instr-hint::before {
+  content: "";
+  position: absolute;
+  top: -6px;
+  left: var(--arrow-x, 50%);
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top: 0;
+  border-bottom-color: rgba(255, 215, 150, 0.5);
+}
+.instr-hint { max-width: 190px; white-space: normal; }
+@keyframes instrHintBob { to { transform: translateY(3px); } }
+@media (max-width: 440px) { .instr-hint { top: 44px; right: 6px; font-size: 10px; } }
+@media (prefers-reduced-motion: reduce) { .instr-hint.show { animation: none; } }
+
+/* hide the clock inside the radio (the top-bar clock stays) */
+.brand-time-badge { display: none !important; }
+
+/* Tip line just above the radio */
+.radio-tip {
+  position: absolute;
+  bottom: 100%;                  /* sits right on top of the radio, whatever its height */
+  left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: 8px;
+  width: max-content;
+  max-width: 100%;
+  padding: 6px 14px;
+  border-radius: 12px;
+  background: rgba(20, 12, 7, 0.78);
+  border: 1px solid rgba(255, 215, 150, 0.35);
+  color: #ffd166;
+  font-family: var(--font-bengali);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.4;
+  text-align: center;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  pointer-events: none;          /* never blocks taps */
+}
+@media (max-width: 600px) {
+  .radio-tip { font-size: 10.5px; padding: 5px 10px; margin-bottom: 6px; }
+}
+/* Skip button for the opening video */
+.intro-skip {
+  position: absolute;
+  z-index: 5;
+  top: max(16px, env(safe-area-inset-top));
+  right: max(16px, env(safe-area-inset-right));
+  padding: 9px 18px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-family: var(--font-bengali, system-ui);
+  font-size: .9rem;
+  font-weight: 600;
+  color: #fff4dc;
+  background: rgba(20, 10, 5, .65);
+  border: 1px solid rgba(255, 216, 117, .6);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, .5);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: background .2s ease, transform .2s ease;
+}
+.intro-skip:hover { background: rgba(60, 30, 10, .85); transform: translateY(-1px); }
+.intro-skip[hidden] { display: none; }
